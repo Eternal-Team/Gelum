@@ -13,9 +13,9 @@ using Terraria.ModLoader.IO;
 
 namespace Gelum.TileEntities
 {
-	public class EnergyExtractor : BaseGelumTE, IItemHandler, IHasUI, IEnergyTransmitter
+	public class GlacialConcentrator : BaseGelumTE, IItemHandler, IHasUI, IEnergyReceiver
 	{
-		public override Type TileType => typeof(Tiles.EnergyExtractor);
+		public override Type TileType => typeof(Tiles.GlacialConcentrator);
 
 		public ItemHandler Handler { get; }
 		public EnergyHandler EnergyHandler { get; }
@@ -27,7 +27,7 @@ namespace Gelum.TileEntities
 
 		private Timer timer;
 
-		public EnergyExtractor()
+		public GlacialConcentrator()
 		{
 			timer = new Timer(60, Callback);
 
@@ -39,28 +39,25 @@ namespace Gelum.TileEntities
 
 		private void Callback()
 		{
-			for (int radius = 2; radius < 16; radius++)
+			if (EnergyHandler.Energy < 100) return;
+
+			float angle = Main.rand.NextFloat(MathHelper.TwoPi);
+
+			int radius = Main.rand.Next(9);
+			int dX = (int)(Math.Cos(angle) * radius);
+			int dY = (int)(Math.Sin(angle) * radius);
+
+			int i = Position.X + dX;
+			int j = Position.Y + dY;
+
+			if (Utility.InWorldBounds(i, j))
 			{
-				foreach (Point point in Utility.GetCircle(Position.X + 1, Position.Y + 1, radius))
+				Tile tile = Main.tile[i, j];
+				if (WorldGen.TileEmpty(i, j) && tile.liquidType() == Tile.Liquid_Water && tile.liquid == 255)
 				{
-					if (Utility.InWorldBounds(point.X, point.Y) && !WorldGen.TileEmpty(point.X, point.Y) && Main.tile[point.X, point.Y].type == TileID.IceBlock)
-					{
-						WorldGen.KillTile(point.X, point.Y, noItem: true);
-
-						EnergyHandler.InsertEnergy(1000);
-
-						for (int i = 0; i < 10; i++)
-						{
-							Vector2 start = point.ToWorldCoordinates(Main.rand.NextFloat() * 16f, Main.rand.NextFloat() * 16f);
-							Vector2 end = Position.ToWorldCoordinates(24f, 24f);
-							Vector2 dir = Vector2.Normalize(end - start);
-							int timeLeft = (int)(Vector2.Distance(start, end) / dir.Length());
-
-							CustomDust.SpawnDust(start, dir, new Color(0, 237, 217), timeLeft);
-						}
-
-						return;
-					}
+					WorldGen.PlaceTile(i, j, TileID.IceBlock);
+					tile.liquid = 0;
+					EnergyHandler.ExtractEnergy(100);
 				}
 			}
 		}
@@ -70,7 +67,7 @@ namespace Gelum.TileEntities
 			timer.Update();
 
 			Item item = Handler.GetItemInSlot(0);
-			if (!item.IsAir && item.modItem is BaseContainmentUnit unit && unit.EnergyHandler.Energy < unit.EnergyHandler.Capacity) EnergyHandler.TransferEnergy(unit.EnergyHandler);
+			if (!item.IsAir && item.modItem is BaseContainmentUnit unit) unit.EnergyHandler.TransferEnergy(EnergyHandler);
 		}
 
 		public override TagCompound Save() => new TagCompound

@@ -1,4 +1,15 @@
 MapObject.EnergyExtractor=Energy Extractor
+MapObject.GlacialConcentrator=Glacial Concentrator
+MapObject.EnergyRelay=Energy Relay
 
+ItemName.EnergyRelay=Energy Relay
 ItemName.EnergyExtractor=Energy Extractor
+ItemName.GlacialConcentrator=Glacial Concentrator
+
 ItemName.BasicContainmentUnit=Basic Containment Unit
+ItemName.AdvancedContainmentUnit=Advanced Containment Unit
+ItemName.EliteContainmentUnit=Elite Containment Unit
+
+ItemTooltip.Energy Relay=Transfers destructive energy
+ItemTooltip.EnergyExtractor=Harnesses the destructive power of ice
+ItemTooltip.GlacialConcentrator=Converts nearby water into ice

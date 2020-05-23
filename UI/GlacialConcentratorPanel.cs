@@ -7,18 +7,18 @@ using Terraria.Localization;
 
 namespace Gelum.UI
 {
-	public class EnergyExtractorPanel : BaseUIPanel<EnergyExtractor>, IItemHandlerUI
+	public class GlacialConcentratorPanel : BaseUIPanel<GlacialConcentrator>, IItemHandlerUI
 	{
-		public string GetTexture(Item item) => "Gelum/Textures/Items/EnergyExtractor";
+		public string GetTexture(Item item) => "Gelum/Textures/Items/GlacialConcentrator";
 		public ItemHandler Handler => Container.Handler;
 
-		public EnergyExtractorPanel(EnergyExtractor container) : base(container)
+		public GlacialConcentratorPanel(GlacialConcentrator container) : base(container)
 		{
 			Width.Pixels = 272;
 			Height.Pixels = 316 + 54;
 			BackgroundColor = new Color(38, 49, 90);
 
-			UIText textLabel = new UIText(Language.GetText("Mods.Gelum.MapObject.EnergyExtractor"))
+			UIText textLabel = new UIText(Language.GetText("Mods.Gelum.MapObject.GlacialConcentrator"))
 			{
 				X = { Percent = 50 },
 				HorizontalAlignment = HorizontalAlignment.Center

@@ -5,9 +5,9 @@ using Terraria.ModLoader;
 
 namespace Gelum.Items
 {
-	public class EnergyExtractor : BaseItem
+	public class EnergyRelay:BaseItem
 	{
-		public override string Texture => "Gelum/Textures/Items/EnergyExtractor";
+		public override string Texture => "Gelum/Textures/Items/EnergyRelay";
 
 		public override void SetDefaults()
 		{
@@ -22,7 +22,7 @@ namespace Gelum.Items
 			item.consumable = true;
 			item.rare = ItemRarityID.Pink;
 			item.value = Item.sellPrice(gold: 8);
-			item.createTile = ModContent.TileType<Tiles.EnergyExtractor>();
+			item.createTile = ModContent.TileType<Tiles.EnergyRelay>();
 		}
 	}
 }
