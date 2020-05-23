@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="C:\Users\Itorius\Documents\My Games\Terraria\ModLoader\references\tModLoader.targets" />
+  <PropertyGroup>
+    <AssemblyName>Gelum</AssemblyName>
+    <TargetFramework>net45</TargetFramework>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Libraries\BaseLibrary\BaseLibrary.csproj" />
+    <ProjectReference Include="..\Libraries\ContainerLibrary\ContainerLibrary.csproj" />
+    <ProjectReference Include="..\Libraries\EnergyLibrary\EnergyLibrary.csproj" />
+  </ItemGroup>
+  <Target Name="BuildMod" AfterTargets="Build">
+    <Exec Command="&quot;$(tMLBuildServerPath)&quot; -build $(ProjectDir) -eac $(TargetPath) -define $(DefineConstants) -unsafe $(AllowUnsafeBlocks)" />
+    <Exec Command="&quot;G:\C#\Terraria\Mods\FTPUploader.exe&quot; &quot;C:\Users\Itorius\Documents\My Games\Terraria\ModLoader\Mods\$(ProjectName).tmod&quot;" />
+  </Target>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="&quot;G:\C#\Terraria\TerrariaCompiler\Builds\Debug\Binaries\TerrariaCompiler.exe&quot; &quot;$(ProjectDir)\&quot;" />
+  </Target>
+</Project>
