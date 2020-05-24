@@ -3,6 +3,7 @@ using BaseLibrary.UI;
 using EnergyLibrary;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 
 namespace Gelum.UI
@@ -27,9 +28,10 @@ namespace Gelum.UI
 		protected override void Draw(SpriteBatch spriteBatch)
 		{
 			angle -= 0.01f;
-			float scale = (Handler.Energy / (float)Handler.Capacity).Remap(0f, 1f, 0.05f, 1f);
+			float slotScale = Math.Min(Dimensions.Width / (float)Gelum.OrbBackground.Width, Dimensions.Height / (float)Gelum.OrbBackground.Height);
+			float scale = (Handler.Energy / (float)Handler.Capacity).Remap(0f, 1f, 0.05f, slotScale);
 
-			spriteBatch.Draw(Gelum.OrbBackground, Utility.Center(Dimensions), null, Color.White, 0f, Gelum.OrbTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
+			spriteBatch.Draw(Gelum.OrbBackground, Utility.Center(Dimensions), null, Color.White, 0f, Gelum.OrbTexture.Size() * 0.5f, slotScale, SpriteEffects.None, 0f);
 			spriteBatch.Draw(Gelum.OrbTexture, Utility.Center(Dimensions), null, new Color(0, 237, 217), angle, Gelum.OrbTexture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
 		}
 	}

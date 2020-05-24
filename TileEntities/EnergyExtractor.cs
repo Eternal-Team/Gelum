@@ -1,5 +1,4 @@
 ﻿using BaseLibrary;
-using BaseLibrary.Tiles.TileEntites;
 using BaseLibrary.UI;
 using ContainerLibrary;
 using EnergyLibrary;
@@ -13,8 +12,10 @@ using Terraria.ModLoader.IO;
 
 namespace Gelum.TileEntities
 {
-	public class EnergyExtractor : BaseGelumTE, IItemHandler, IHasUI, IEnergyTransmitter
+	public class EnergyExtractor : BaseGelumTE, IItemHandler, IHasUI, IEnergySource
 	{
+		public override Vector2 InsertionPoint=>new Vector2(24, 24);
+		
 		public override Type TileType => typeof(Tiles.EnergyExtractor);
 
 		public ItemHandler Handler { get; }
@@ -47,8 +48,6 @@ namespace Gelum.TileEntities
 					{
 						WorldGen.KillTile(point.X, point.Y, noItem: true);
 
-						EnergyHandler.InsertEnergy(1000);
-
 						for (int i = 0; i < 10; i++)
 						{
 							Vector2 start = point.ToWorldCoordinates(Main.rand.NextFloat() * 16f, Main.rand.NextFloat() * 16f);
@@ -56,7 +55,7 @@ namespace Gelum.TileEntities
 							Vector2 dir = Vector2.Normalize(end - start);
 							int timeLeft = (int)(Vector2.Distance(start, end) / dir.Length());
 
-							CustomDust.SpawnDust(start, dir, new Color(0, 237, 217), timeLeft);
+							Photon.Spawn(start, dir, new Color(0, 237, 217), timeLeft, () => EnergyHandler.InsertEnergy(100));
 						}
 
 						return;

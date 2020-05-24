@@ -1,8 +1,14 @@
 using BaseLibrary;
-using Microsoft.Xna.Framework;
+using Gelum.TileEntities;
 using Microsoft.Xna.Framework.Graphics;
+using MonoMod.RuntimeDetour.HookGen;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace Gelum
 {
@@ -11,49 +17,54 @@ namespace Gelum
 	// todo: crusher
 	// todo: glacial capacitor - determines speed of machines
 
-	public struct CustomDust
-	{
-		public Vector2 position;
-		public Vector2 velocity;
-		public Color color;
-		public int timeLeft;
-		public bool active;
-
-		public void Update()
-		{
-			position += velocity;
-
-			timeLeft--;
-			if (timeLeft == 0) active = false;
-		}
-
-		private static int index;
-
-		public static void SpawnDust(Vector2 position, Vector2 velocity, Color color, int timeLeft = -1)
-		{
-			Gelum.dusts[index].position = position;
-			Gelum.dusts[index].velocity = velocity;
-			Gelum.dusts[index].color = color;
-			Gelum.dusts[index].timeLeft = timeLeft;
-			Gelum.dusts[index].active = true;
-
-			index++;
-			if (index >= Gelum.dusts.Length) index = 0;
-		}
-	}
-
 	public class Gelum : Mod
 	{
 		internal static Texture2D OrbTexture;
 		internal static Texture2D OrbBackground;
 		internal static Texture2D PhotonTexture;
 
-		internal static CustomDust[] dusts = new CustomDust[1000];
+		internal static readonly Photon[] Photons = new Photon[1000];
+
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public delegate void orig_LoadTileEntities(IList<TagCompound> list);
+
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public delegate void hook_LoadTileEntities(orig_LoadTileEntities orig, IList<TagCompound> list);
+
+		public static event hook_LoadTileEntities LoadTileEntities
+		{
+			add => HookEndpointManager.Add<hook_LoadTileEntities>(typeof(ModLoader).Assembly.GetType("Terraria.ModLoader.IO.TileIO").GetMethod("LoadTileEntities", Utility.defaultFlags), value);
+			remove => HookEndpointManager.Remove<hook_LoadTileEntities>(typeof(ModLoader).Assembly.GetType("Terraria.ModLoader.IO.TileIO").GetMethod("LoadTileEntities", Utility.defaultFlags), value);
+		}
 
 		public override void Load()
 		{
 			On.Terraria.Main.DrawDust += MainOnDrawDust;
 			On.Terraria.Dust.UpdateDust += DustOnUpdateDust;
+			LoadTileEntities += (orig, list) =>
+			{
+				orig(list);
+
+				List<BaseGelumTE> tes = TileEntity.ByPosition.Select(pair => pair.Value).OfType<BaseGelumTE>().ToList();
+
+				foreach (BaseGelumTE te in tes)
+				{
+					te.Network = new GelumNetwork();
+					te.Network.Tiles.Add(te);
+				}
+
+				foreach (BaseGelumTE te in tes)
+				{
+					List<GelumNetwork> networks = te.GetNeighbors().Select(duct => duct.Network).Distinct().ToList();
+
+					foreach (GelumNetwork other in networks.Where(other => other != te.Network))
+					{
+						foreach (BaseGelumTE otherTile in other.Tiles) otherTile.Network = te.Network;
+						te.Network.Tiles.AddRange(other.Tiles);
+						GelumNetwork.Networks.Remove(other);
+					}
+				}
+			};
 
 			if (!Main.dedServ)
 			{
@@ -67,9 +78,9 @@ namespace Gelum
 		{
 			orig();
 
-			for (int i = 0; i < dusts.Length; i++)
+			for (int i = 0; i < Photons.Length; i++)
 			{
-				if (dusts[i].active) dusts[i].Update();
+				if (Photons[i].active) Photons[i].Update();
 			}
 		}
 
@@ -79,9 +90,9 @@ namespace Gelum
 
 			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
 
-			for (int i = 0; i < dusts.Length; i++)
+			for (int i = 0; i < Photons.Length; i++)
 			{
-				if (dusts[i].active) Main.spriteBatch.Draw(PhotonTexture, dusts[i].position - Main.screenPosition, null, dusts[i].color, 0f, PhotonTexture.Size() * 0.5f, 0.1f, SpriteEffects.None, 0f);
+				if (Photons[i].active) Main.spriteBatch.Draw(PhotonTexture, Photons[i].position - Main.screenPosition, null, Photons[i].color, 0f, PhotonTexture.Size() * 0.5f, 0.15f, SpriteEffects.None, 0f);
 			}
 
 			Main.spriteBatch.End();

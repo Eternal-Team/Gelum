@@ -1,6 +1,4 @@
-﻿using BaseLibrary;
-using Gelum.TileEntities;
-using Microsoft.Xna.Framework;
+﻿using Gelum.TileEntities;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -13,11 +11,11 @@ namespace Gelum
 		{
 			Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
 
-			foreach (Node node in BaseGelumTE.Nodes)
+			foreach (GelumNetwork network in GelumNetwork.Networks)
 			{
-				foreach (Node connection in node.connections)
+				foreach (BaseGelumTE tile in network.Tiles)
 				{
-					Main.spriteBatch.DrawLine(connection.position - Main.screenPosition, node.position - Main.screenPosition, Color.Goldenrod);
+					// Main.spriteBatch.Draw(Main.magicPixel, new Rectangle((int)(tile.Position.X * 16 - Main.screenPosition.X), (int)(tile.Position.Y * 16 - Main.screenPosition.Y), 16, 16), network.debugColor * 0.5f);
 				}
 			}
 

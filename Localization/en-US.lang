@@ -1,10 +1,12 @@
 MapObject.EnergyExtractor=Energy Extractor
 MapObject.GlacialConcentrator=Glacial Concentrator
 MapObject.EnergyRelay=Energy Relay
+MapObject.Crusher=Crusher
 
 ItemName.EnergyRelay=Energy Relay
 ItemName.EnergyExtractor=Energy Extractor
 ItemName.GlacialConcentrator=Glacial Concentrator
+ItemName.Crusher=Crusher
 
 ItemName.BasicContainmentUnit=Basic Containment Unit
 ItemName.AdvancedContainmentUnit=Advanced Containment Unit

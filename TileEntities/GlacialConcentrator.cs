@@ -1,5 +1,4 @@
 ﻿using BaseLibrary;
-using BaseLibrary.Tiles.TileEntites;
 using BaseLibrary.UI;
 using ContainerLibrary;
 using EnergyLibrary;
@@ -15,6 +14,9 @@ namespace Gelum.TileEntities
 {
 	public class GlacialConcentrator : BaseGelumTE, IItemHandler, IHasUI, IEnergyReceiver
 	{
+		public override Vector2 InsertionPoint=>new Vector2(16, 24);
+
+		
 		public override Type TileType => typeof(Tiles.GlacialConcentrator);
 
 		public ItemHandler Handler { get; }
