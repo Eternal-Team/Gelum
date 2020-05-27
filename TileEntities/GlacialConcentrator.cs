@@ -31,7 +31,7 @@ namespace Gelum.TileEntities
 
 		public GlacialConcentrator()
 		{
-			timer = new Timer(60, Callback);
+			timer = new Timer(15, Callback);
 
 			Handler = new ItemHandler();
 			Handler.IsItemValid += (slot, item) => item.modItem is BaseContainmentUnit;

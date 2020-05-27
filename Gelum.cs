@@ -12,9 +12,6 @@ using Terraria.ModLoader.IO;
 
 namespace Gelum
 {
-	// todo: mining laser
-	// todo: auto-extractinator
-	// todo: crusher
 	// todo: glacial capacitor - determines speed of machines
 
 	public class Gelum : Mod
@@ -92,7 +89,7 @@ namespace Gelum
 
 			for (int i = 0; i < Photons.Length; i++)
 			{
-				if (Photons[i].active) Main.spriteBatch.Draw(PhotonTexture, Photons[i].position - Main.screenPosition, null, Photons[i].color, 0f, PhotonTexture.Size() * 0.5f, 0.15f, SpriteEffects.None, 0f);
+				if (Photons[i].active) Main.spriteBatch.Draw(PhotonTexture, Photons[i].position - Main.screenPosition, null, Photons[i].color * 0.7f, 0f, PhotonTexture.Size() * 0.5f, 0.15f, SpriteEffects.None, 0f);
 			}
 
 			Main.spriteBatch.End();

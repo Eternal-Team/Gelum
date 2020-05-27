@@ -7,18 +7,18 @@ using Terraria.Localization;
 
 namespace Gelum.UI
 {
-	public class CrusherPanel : BaseUIPanel<Crusher>, IItemHandlerUI
+	public class MiningLaserPanel : BaseUIPanel<MiningLaser>, IItemHandlerUI
 	{
-		public string GetTexture(Item item) => "Gelum/Textures/Items/Crusher";
+		public string GetTexture(Item item) => "Gelum/Textures/Items/MiningLaser";
 		public ItemHandler Handler => Container.Handler;
 
-		public CrusherPanel(Crusher container) : base(container)
+		public MiningLaserPanel(MiningLaser container) : base(container)
 		{
 			Width.Pixels = 272;
 			Height.Pixels = 232;
 			BackgroundColor = new Color(38, 49, 90);
 
-			UIText textLabel = new UIText(Language.GetText("Mods.Gelum.MapObject.Crusher"))
+			UIText textLabel = new UIText(Language.GetText("Mods.Gelum.MapObject.MiningLaser"))
 			{
 				X = { Percent = 50 },
 				HorizontalAlignment = HorizontalAlignment.Center

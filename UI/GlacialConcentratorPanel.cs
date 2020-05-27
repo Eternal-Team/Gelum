@@ -30,7 +30,7 @@ namespace Gelum.UI
 				Width = { Pixels = 256 },
 				Height = { Pixels = 256 },
 				X = { Percent = 50 },
-				Y = { Pixels = 36 },
+				Y = { Pixels = 28 }
 			};
 			Add(energy);
 
@@ -39,7 +39,7 @@ namespace Gelum.UI
 				X = { Percent = 50 },
 				Y = { Percent = 100 },
 				Width = { Pixels = 54 },
-				Height = { Pixels = 54 },
+				Height = { Pixels = 54 }
 			};
 			Add(slot);
 		}

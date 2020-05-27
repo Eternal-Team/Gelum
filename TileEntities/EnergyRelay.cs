@@ -58,7 +58,7 @@ namespace Gelum.TileEntities
 			{
 				if (tile is IEnergyReceiver receiver && receiver.EnergyHandler.Energy < receiver.EnergyHandler.Capacity)
 				{
-					foreach (EnergyRelay relay in Network.Tiles.OfType<EnergyRelay>().Where(relay => relay.Connections.Contains(receiver as BaseGelumTE)))
+					foreach (EnergyRelay relay in Network.Tiles.OfType<EnergyRelay>())
 					{
 						if (relay.EnergyHandler.Energy <= 0) continue;
 

@@ -42,7 +42,7 @@ namespace Gelum.TileEntities
 			List<GelumNetwork> networks = GetNeighbors().Select(duct => duct.Network).Distinct().ToList();
 			GelumNetwork network = new GelumNetwork
 			{
-				Tiles = networks.SelectMany(routedNetwork => routedNetwork.Tiles).Concat(this).ToList(),
+				Tiles = networks.SelectMany(routedNetwork => routedNetwork.Tiles).Concat(this).ToList()
 			};
 
 			foreach (BaseGelumTE duct in network.Tiles)
@@ -85,7 +85,7 @@ namespace Gelum.TileEntities
 					{
 						GelumNetwork network = new GelumNetwork
 						{
-							Tiles = newNetworks[i].Select(position => ByPosition[position] as BaseGelumTE).ToList(),
+							Tiles = newNetworks[i].Select(position => ByPosition[position] as BaseGelumTE).ToList()
 						};
 						foreach (BaseGelumTE duct in network.Tiles)
 						{

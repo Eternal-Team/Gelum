@@ -8,16 +8,17 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader.IO;
 
 namespace Gelum.TileEntities
 {
-	public class Crusher : BaseGelumTE, IItemHandler, IHasUI, IEnergyReceiver
+	public class MiningLaser : BaseGelumTE, IItemHandler, IHasUI, IEnergyReceiver
 	{
-		public override Vector2 InsertionPoint => new Vector2(32, 66);
+		public override Vector2 InsertionPoint => new Vector2(40, 16);
 
-		public override Type TileType => typeof(Tiles.Crusher);
+		public override Type TileType => typeof(Tiles.MiningLaser);
 
 		public ItemHandler Handler { get; }
 		public EnergyHandler EnergyHandler { get; }
@@ -28,10 +29,11 @@ namespace Gelum.TileEntities
 		public LegacySoundStyle OpenSound { get; }
 
 		private Timer timer;
+		public Point16 CurrentTile = Point16.NegativeOne;
 
-		public Crusher()
+		public MiningLaser()
 		{
-			timer = new Timer(60, Callback);
+			timer = new Timer(15, Callback);
 
 			Handler = new ItemHandler(5)
 			{
@@ -50,9 +52,6 @@ namespace Gelum.TileEntities
 				{
 					case 0:
 						return item.modItem is BaseContainmentUnit;
-					case 1:
-					case 2:
-						return Recipes.ContainsKey(item.type);
 					default:
 						return false;
 				}
@@ -61,47 +60,25 @@ namespace Gelum.TileEntities
 			EnergyHandler = new EnergyHandler(1000000, 1000);
 		}
 
-		private const int EnergyPerItem = 1000;
+		private const int EnergyPerTile = 100;
+
+		public int radius = 2;
+		public int height = 5;
 
 		private void Callback()
 		{
-			if (EnergyHandler.Energy < EnergyPerItem) return;
+			if (EnergyHandler.Energy < EnergyPerTile) return;
 
-			int slot = Handler.GetFirstInput();
-			if (slot != -1)
+			if (CurrentTile == Point16.NegativeOne) CurrentTile = new Point16(Position.X + 2 - radius, Position.Y + 5);
+
+			WorldGen.KillTile(CurrentTile.X, CurrentTile.Y);
+
+			if (CurrentTile.X < Position.X + 2 + radius) CurrentTile = new Point16(CurrentTile.X + 1, CurrentTile.Y);
+			else
 			{
-				Item item = Handler.GetItemInSlot(slot);
-				if (Recipes.ContainsKey(item.type) && Handler.OutputSlots.Any((x, i) => x.IsAir || x.type == Recipes[item.type] && x.stack < x.maxStack))
-				{
-					for (int i = 0; i < Handler.Slots; i++)
-					{
-						if (Handler.Modes[i] != SlotMode.Output) continue;
-
-						if (Handler.Items[i].type == Recipes[item.type] && Handler.Items[i].stack < Handler.Items[i].maxStack)
-						{
-							Handler.Items[i].stack++;
-							break;
-						}
-
-						if (Handler.Items[i].IsAir)
-						{
-							Handler.Items[i].SetDefaults(Recipes[item.type]);
-							Handler.Items[i].stack = 1;
-							break;
-						}
-					}
-					
-					Handler.Shrink(slot, 1);
-					EnergyHandler.ExtractEnergy(EnergyPerItem);
-				}
+				if (CurrentTile.Y < Position.Y + 4 + height) CurrentTile = new Point16(Position.X, CurrentTile.Y + 1);
 			}
 		}
-
-		private static readonly Dictionary<int, int> Recipes = new Dictionary<int, int>
-		{
-			{ ItemID.StoneBlock, ItemID.SandBlock },
-			{ ItemID.SandBlock, ItemID.SiltBlock }
-		};
 
 		public override void Update()
 		{

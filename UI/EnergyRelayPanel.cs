@@ -25,7 +25,7 @@ namespace Gelum.UI
 				Width = { Pixels = 256 },
 				Height = { Pixels = 256 },
 				X = { Percent = 50 },
-				Y = { Pixels = 28 },
+				Y = { Pixels = 28 }
 			};
 			Add(energy);
 		}

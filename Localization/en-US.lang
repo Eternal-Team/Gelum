@@ -2,11 +2,15 @@ MapObject.EnergyExtractor=Energy Extractor
 MapObject.GlacialConcentrator=Glacial Concentrator
 MapObject.EnergyRelay=Energy Relay
 MapObject.Crusher=Crusher
+MapObject.AutoExtractinator=Auto Extractinator
+MapObject.MiningLaser=Mining Laser
 
 ItemName.EnergyRelay=Energy Relay
 ItemName.EnergyExtractor=Energy Extractor
 ItemName.GlacialConcentrator=Glacial Concentrator
 ItemName.Crusher=Crusher
+ItemName.AutoExtractinator=Auto Extractinator
+ItemName.MiningLaser=Mining Laser
 
 ItemName.BasicContainmentUnit=Basic Containment Unit
 ItemName.AdvancedContainmentUnit=Advanced Containment Unit
