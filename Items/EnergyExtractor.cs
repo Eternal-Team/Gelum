@@ -24,5 +24,13 @@ namespace Gelum.Items
 			item.value = Item.sellPrice(gold: 8);
 			item.createTile = ModContent.TileType<Tiles.EnergyExtractor>();
 		}
+		
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.GoldBar, 7);
+			recipe.AddIngredient(ItemID.Gel, 20);
+			recipe.SetResult(this);
+		}
 	}
 }

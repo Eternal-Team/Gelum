@@ -4,6 +4,7 @@ MapObject.EnergyRelay=Energy Relay
 MapObject.Crusher=Crusher
 MapObject.AutoExtractinator=Auto Extractinator
 MapObject.MiningLaser=Mining Laser
+MapObject.Timer=Timer
 
 ItemName.EnergyRelay=Energy Relay
 ItemName.EnergyExtractor=Energy Extractor
@@ -11,6 +12,7 @@ ItemName.GlacialConcentrator=Glacial Concentrator
 ItemName.Crusher=Crusher
 ItemName.AutoExtractinator=Auto Extractinator
 ItemName.MiningLaser=Mining Laser
+ItemName.Timer=Timer
 
 ItemName.BasicContainmentUnit=Basic Containment Unit
 ItemName.AdvancedContainmentUnit=Advanced Containment Unit
@@ -19,3 +21,6 @@ ItemName.EliteContainmentUnit=Elite Containment Unit
 ItemTooltip.Energy Relay=Transfers destructive energy
 ItemTooltip.EnergyExtractor=Harnesses the destructive power of ice
 ItemTooltip.GlacialConcentrator=Converts nearby water into ice
+
+UI.Active=Active
+UI.Inactive=Inactive

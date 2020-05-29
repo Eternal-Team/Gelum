@@ -3,6 +3,7 @@ using ContainerLibrary;
 using Gelum.TileEntities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Localization;
 
 namespace Gelum.UI
@@ -14,7 +15,7 @@ namespace Gelum.UI
 
 		public MiningLaserPanel(MiningLaser container) : base(container)
 		{
-			Width.Pixels = 272;
+			Width.Pixels = 400;
 			Height.Pixels = 232;
 			BackgroundColor = new Color(38, 49, 90);
 
@@ -43,59 +44,203 @@ namespace Gelum.UI
 			};
 			Add(slot);
 
-			slot = new UIContainerSlot(() => Handler, 1)
+			#region Radius
+			UIText textRadius = new UIText("Radius: " + container.radius)
 			{
-				X = { Pixels = 0 },
-				Y = { Pixels = 108 },
-				Width = { Pixels = 54 },
-				Height = { Pixels = 54 }
+				X = { Percent = 50 },
+				Y = { Pixels = 105 },
+				HorizontalAlignment = HorizontalAlignment.Center
 			};
-			Add(slot);
+			Add(textRadius);
 
-			slot = new UIContainerSlot(() => Handler, 2)
+			UITextButton buttonDecRadius = new UITextButton("--")
 			{
-				X = { Pixels = 62 },
-				Y = { Pixels = 108 },
-				Width = { Pixels = 54 },
-				Height = { Pixels = 54 }
+				Y = { Pixels = 100 },
+				Width = { Pixels = 40 },
+				Height = { Pixels = 20 },
+				Padding = Padding.Zero
 			};
-			Add(slot);
-
-			slot = new UIContainerSlot(() => Handler, 1)
+			buttonDecRadius.OnClick += _ =>
 			{
-				X = { Pixels = 0 },
-				Y = { Pixels = 108 },
-				Width = { Pixels = 54 },
-				Height = { Pixels = 54 }
-			};
-			Add(slot);
+				if (container.radius > 10)
+				{
+					container.radius -= 10;
+					container.CurrentTile = Point16.NegativeOne;
+				}
 
-			slot = new UIContainerSlot(() => Handler, 2)
+				textRadius.Text = "Radius: " + container.radius;
+			};
+			Add(buttonDecRadius);
+
+			buttonDecRadius = new UITextButton("-")
 			{
-				X = { Pixels = 62 },
-				Y = { Pixels = 108 },
-				Width = { Pixels = 54 },
-				Height = { Pixels = 54 }
+				X = { Pixels = 48 },
+				Y = { Pixels = 100 },
+				Width = { Pixels = 40 },
+				Height = { Pixels = 20 },
+				Padding = Padding.Zero
 			};
-			Add(slot);
-
-			slot = new UIContainerSlot(() => Handler, 3)
+			buttonDecRadius.OnClick += _ =>
 			{
-				X = { Percent = 100, Pixels = -62 },
-				Y = { Pixels = 108 },
-				Width = { Pixels = 54 },
-				Height = { Pixels = 54 }
-			};
-			Add(slot);
+				if (container.radius > 1)
+				{
+					container.radius--;
+					container.CurrentTile = Point16.NegativeOne;
+				}
 
-			slot = new UIContainerSlot(() => Handler, 4)
+				textRadius.Text = "Radius: " + container.radius;
+			};
+			Add(buttonDecRadius);
+
+			UITextButton buttonIncRadius = new UITextButton("+")
+			{
+				X = { Percent = 100, Pixels = -48 },
+				Y = { Pixels = 100 },
+				Width = { Pixels = 40 },
+				Height = { Pixels = 20 },
+				Padding = Padding.Zero
+			};
+			buttonIncRadius.OnClick += _ =>
+			{
+				container.radius++;
+				container.CurrentTile = Point16.NegativeOne;
+				textRadius.Text = "Radius: " + container.radius;
+			};
+			Add(buttonIncRadius);
+
+			buttonIncRadius = new UITextButton("++")
 			{
 				X = { Percent = 100 },
-				Y = { Pixels = 108 },
-				Width = { Pixels = 54 },
-				Height = { Pixels = 54 }
+				Y = { Pixels = 100 },
+				Width = { Pixels = 40 },
+				Height = { Pixels = 20 },
+				Padding = Padding.Zero
 			};
-			Add(slot);
+			buttonIncRadius.OnClick += _ =>
+			{
+				container.radius += 10;
+				container.CurrentTile = Point16.NegativeOne;
+				textRadius.Text = "Radius: " + container.radius;
+			};
+			Add(buttonIncRadius);
+			#endregion
+
+			#region Depth
+			UIText textDepth = new UIText("Depth: " + container.height)
+			{
+				X = { Percent = 50 },
+				Y = { Pixels = 128 },
+				HorizontalAlignment = HorizontalAlignment.Center
+			};
+			Add(textDepth);
+
+			UITextButton buttonDecDepth = new UITextButton("---")
+			{
+				Y = { Pixels = 128 },
+				Width = { Pixels = 40 },
+				Height = { Pixels = 20 },
+				Padding = Padding.Zero
+			};
+			buttonDecDepth.OnClick += _ =>
+			{
+				if (container.height > 100)
+				{
+					container.height -= 100;
+					container.CurrentTile = Point16.NegativeOne;
+				}
+
+				textDepth.Text = "Depth: " + container.height;
+			};
+			Add(buttonDecDepth);
+
+			buttonDecDepth = new UITextButton("--")
+			{
+				X = { Pixels = 48 },
+				Y = { Pixels = 128 },
+				Width = { Pixels = 40 },
+				Height = { Pixels = 20 },
+				Padding = Padding.Zero
+			};
+			buttonDecDepth.OnClick += _ =>
+			{
+				if (container.height > 10)
+				{
+					container.height -= 10;
+					container.CurrentTile = Point16.NegativeOne;
+				}
+
+				textDepth.Text = "Depth: " + container.height;
+			};
+			Add(buttonDecDepth);
+
+			buttonDecDepth = new UITextButton("-")
+			{
+				X = { Pixels = 96 },
+				Y = { Pixels = 128 },
+				Width = { Pixels = 40 },
+				Height = { Pixels = 20 },
+				Padding = Padding.Zero
+			};
+			buttonDecDepth.OnClick += _ =>
+			{
+				if (container.height > 1)
+				{
+					container.height--;
+					container.CurrentTile = Point16.NegativeOne;
+				}
+
+				textDepth.Text = "Depth: " + container.height;
+			};
+			Add(buttonDecDepth);
+
+			UITextButton buttonIncDepth = new UITextButton("+")
+			{
+				X = { Percent = 100, Pixels = -96 },
+				Y = { Pixels = 128 },
+				Width = { Pixels = 40 },
+				Height = { Pixels = 20 },
+				Padding = Padding.Zero
+			};
+			buttonIncDepth.OnClick += _ =>
+			{
+				container.height++;
+				container.CurrentTile = Point16.NegativeOne;
+				textDepth.Text = "Depth: " + container.height;
+			};
+			Add(buttonIncDepth);
+
+			buttonIncDepth = new UITextButton("++")
+			{
+				X = { Percent = 100, Pixels = -48 },
+				Y = { Pixels = 128 },
+				Width = { Pixels = 40 },
+				Height = { Pixels = 20 },
+				Padding = Padding.Zero
+			};
+			buttonIncDepth.OnClick += _ =>
+			{
+				container.height += 10;
+				container.CurrentTile = Point16.NegativeOne;
+				textDepth.Text = "Depth: " + container.height;
+			};
+			Add(buttonIncDepth);
+
+			buttonIncDepth = new UITextButton("+++")
+			{
+				X = { Percent = 100 },
+				Y = { Pixels = 128 },
+				Width = { Pixels = 40 },
+				Height = { Pixels = 20 },
+				Padding = Padding.Zero
+			};
+			buttonIncDepth.OnClick += _ =>
+			{
+				container.height += 100;
+				container.CurrentTile = Point16.NegativeOne;
+				textDepth.Text = "Depth: " + container.height;
+			};
+			Add(buttonIncDepth);
+			#endregion
 		}
 	}
 }

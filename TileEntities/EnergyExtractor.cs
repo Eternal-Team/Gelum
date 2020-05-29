@@ -26,16 +26,16 @@ namespace Gelum.TileEntities
 		public LegacySoundStyle CloseSound { get; }
 		public LegacySoundStyle OpenSound { get; }
 
-		private Timer timer;
+		private BaseLibrary.Timer timer;
 
 		public EnergyExtractor()
 		{
-			timer = new Timer(15, Callback);
+			timer = new BaseLibrary.Timer(15, Callback);
 
 			Handler = new ItemHandler();
 			Handler.IsItemValid += (slot, item) => item.modItem is BaseContainmentUnit;
 
-			EnergyHandler = new EnergyHandler(1000000, 1000);
+			EnergyHandler = new EnergyHandler(10000, 1000);
 		}
 
 		private void Callback()

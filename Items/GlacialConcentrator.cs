@@ -24,5 +24,13 @@ namespace Gelum.Items
 			item.value = Item.sellPrice(gold: 8);
 			item.createTile = ModContent.TileType<Tiles.GlacialConcentrator>();
 		}
+		
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.IceMachine);
+			recipe.AddIngredient(ItemID.IceBlock, 200);
+			recipe.SetResult(this);
+		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using Terraria;
 
 namespace Gelum
 {
@@ -10,6 +11,7 @@ namespace Gelum
 		public Color color;
 		public int timeLeft;
 		public bool active;
+		public float scale;
 		public Action OnDeath;
 
 		public void Update()
@@ -29,6 +31,7 @@ namespace Gelum
 		public static void Spawn(Vector2 position, Vector2 velocity, Color color, int timeLeft = -1, Action onDeath = null)
 		{
 			ref Photon dust = ref Gelum.Photons[index];
+			dust.scale = Main.rand.NextFloat(0.12f, 0.2f);
 			dust.position = position;
 			dust.velocity = velocity;
 			dust.color = color;

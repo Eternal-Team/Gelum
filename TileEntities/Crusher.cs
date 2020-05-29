@@ -27,11 +27,11 @@ namespace Gelum.TileEntities
 		public LegacySoundStyle CloseSound { get; }
 		public LegacySoundStyle OpenSound { get; }
 
-		private Timer timer;
+		private  BaseLibrary. Timer timer;
 
 		public Crusher()
 		{
-			timer = new Timer(60, Callback);
+			timer = new BaseLibrary.Timer(60, Callback);
 
 			Handler = new ItemHandler(5)
 			{
@@ -58,7 +58,7 @@ namespace Gelum.TileEntities
 				}
 			};
 
-			EnergyHandler = new EnergyHandler(1000000, 1000);
+			EnergyHandler = new EnergyHandler(10000, 1000);
 		}
 
 		private const int EnergyPerItem = 1000;

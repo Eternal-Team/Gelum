@@ -26,13 +26,13 @@ namespace Gelum.TileEntities
 
 		public IEnumerable<BaseGelumTE> Connections => Network.Tiles.Where(te => !(te is EnergyRelay) && Vector2.DistanceSquared(te.Position.ToWorldCoordinates(te.InsertionPoint), Position.ToWorldCoordinates(InsertionPoint)) < 160 * 160);
 
-		private Timer timer;
+		private BaseLibrary.Timer timer;
 
 		public EnergyRelay()
 		{
 			EnergyHandler = new EnergyHandler(1000, 1000);
 
-			timer = new Timer(5, Callback);
+			timer = new BaseLibrary.Timer(5, Callback);
 		}
 
 		private void Callback()

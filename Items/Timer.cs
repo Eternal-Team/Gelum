@@ -5,9 +5,9 @@ using Terraria.ModLoader;
 
 namespace Gelum.Items
 {
-	public class MiningLaser : BaseItem
+	public class Timer : BaseItem
 	{
-		public override string Texture => "Gelum/Textures/Items/MiningLaser";
+		public override string Texture => "Gelum/Textures/Items/Timer";
 
 		public override void SetDefaults()
 		{
@@ -22,15 +22,21 @@ namespace Gelum.Items
 			item.consumable = true;
 			item.rare = ItemRarityID.Pink;
 			item.value = Item.sellPrice(gold: 8);
-			item.createTile = ModContent.TileType<Tiles.MiningLaser>();
+			item.createTile = ModContent.TileType<Tiles.Timer>();
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.GoldBar, 25);
-			recipe.AddIngredient(ItemID.Wire, 100);
-			recipe.AddIngredient(ItemID.Ruby);
+			recipe.AddIngredient(ItemID.Timer1Second);
+			recipe.SetResult(this);
+
+			recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.Timer3Second);
+			recipe.SetResult(this);
+
+			recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.Timer5Second);
 			recipe.SetResult(this);
 		}
 	}

@@ -74,6 +74,14 @@ namespace Gelum.Items
 		{
 			EnergyHandler = new EnergyHandler(10000, 1000);
 		}
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.GoldBar, 2);
+			recipe.AddIngredient(ItemID.Sapphire);
+			recipe.SetResult(this);
+		}
 	}
 	
 	public class AdvancedContainmentUnit : BaseContainmentUnit
@@ -82,6 +90,14 @@ namespace Gelum.Items
 		{
 			EnergyHandler = new EnergyHandler(100000, 10000);
 		}
+		
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.HellstoneBar, 2);
+			recipe.AddIngredient(ItemID.Sapphire);
+			recipe.SetResult(this);
+		}
 	}
 	
 	public class EliteContainmentUnit : BaseContainmentUnit
@@ -89,6 +105,14 @@ namespace Gelum.Items
 		public EliteContainmentUnit()
 		{
 			EnergyHandler = new EnergyHandler(1000000, 100000);
+		}
+		
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.HallowedBar, 2);
+			recipe.AddIngredient(ItemID.Sapphire);
+			recipe.SetResult(this);
 		}
 	}
 }

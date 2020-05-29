@@ -13,7 +13,9 @@ using Terraria.ModLoader.IO;
 namespace Gelum
 {
 	// todo: glacial capacitor - determines speed of machines
-
+	// bug: photons don't get saved -> loss of energy
+	// bug: photon distribution and network visual are weird
+	
 	public class Gelum : Mod
 	{
 		internal static Texture2D OrbTexture;
@@ -89,7 +91,8 @@ namespace Gelum
 
 			for (int i = 0; i < Photons.Length; i++)
 			{
-				if (Photons[i].active) Main.spriteBatch.Draw(PhotonTexture, Photons[i].position - Main.screenPosition, null, Photons[i].color * 0.7f, 0f, PhotonTexture.Size() * 0.5f, 0.15f, SpriteEffects.None, 0f);
+				Photon photon = Photons[i];
+				if (photon.active) Main.spriteBatch.Draw(PhotonTexture, photon.position - Main.screenPosition, null, photon.color * 0.7f, 0f, PhotonTexture.Size() * 0.5f, photon.scale, SpriteEffects.None, 0f);
 			}
 
 			Main.spriteBatch.End();

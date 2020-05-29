@@ -1,15 +1,12 @@
-﻿using BaseLibrary;
-using BaseLibrary.UI;
+﻿using BaseLibrary.UI;
 using ContainerLibrary;
 using EnergyLibrary;
 using Gelum.Items;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader.IO;
 
 namespace Gelum.TileEntities
@@ -28,23 +25,14 @@ namespace Gelum.TileEntities
 		public LegacySoundStyle CloseSound { get; }
 		public LegacySoundStyle OpenSound { get; }
 
-		private Timer timer;
+		private BaseLibrary.Timer timer;
 		public Point16 CurrentTile = Point16.NegativeOne;
 
 		public MiningLaser()
 		{
-			timer = new Timer(15, Callback);
+			timer = new BaseLibrary.Timer(15, Callback);
 
-			Handler = new ItemHandler(5)
-			{
-				Modes =
-				{
-					[1] = SlotMode.Input,
-					[2] = SlotMode.Input,
-					[3] = SlotMode.Output,
-					[4] = SlotMode.Output
-				}
-			};
+			Handler = new ItemHandler();
 
 			Handler.IsItemValid += (slot, item) =>
 			{
@@ -76,7 +64,7 @@ namespace Gelum.TileEntities
 			if (CurrentTile.X < Position.X + 2 + radius) CurrentTile = new Point16(CurrentTile.X + 1, CurrentTile.Y);
 			else
 			{
-				if (CurrentTile.Y < Position.Y + 4 + height) CurrentTile = new Point16(Position.X, CurrentTile.Y + 1);
+				if (CurrentTile.Y < Position.Y + 4 + height) CurrentTile = new Point16(Position.X + 2 - radius, CurrentTile.Y + 1);
 			}
 		}
 
@@ -89,7 +77,9 @@ namespace Gelum.TileEntities
 		{
 			["UUID"] = UUID,
 			["Items"] = Handler.Save(),
-			["Energy"] = EnergyHandler.Save()
+			["Energy"] = EnergyHandler.Save(),
+			["Radius"] = radius,
+			["Depth"] = height
 		};
 
 		public override void Load(TagCompound tag)
@@ -97,6 +87,8 @@ namespace Gelum.TileEntities
 			UUID = tag.Get<Guid>("UUID");
 			Handler.Load(tag.GetCompound("Items"));
 			EnergyHandler.Load(tag.GetCompound("Energy"));
+			radius = tag.GetInt("Radius");
+			height = tag.GetInt("Depth");
 		}
 	}
 }
